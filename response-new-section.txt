@@ -1,0 +1,12 @@
+================================ Human Message =================================
+
+Add a new section titles Careers
+Calling LLM
+================================== Ai Message ==================================
+
+```html
+<section id="careers">
+    <h2>Careers</h2>
+    <p>Explore our diverse career opportunities and join us on this exciting journey.</p>
+</section>
+```
