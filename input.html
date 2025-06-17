@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS - Premium NFT Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --electric-pink: #ff0055;
+            --cyber-cyan: #00fff5;
+            --cosmic-purple: #ab7cf9;
+            --neon-yellow: #fcee0c;
+            --dark-bg: #0a0a0f;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: #a0a9c0;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --shadow-glow: 0 8px 32px rgba(171, 124, 249, 0.3);
+            --golden-ratio: 1.618;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a0b2e 25%, #16213e 50%, #0f3460 75%, #0a0a0f 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating Particles Background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--cyber-cyan);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+            box-shadow: 0 0 10px var(--cyber-cyan);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            background: var(--glass-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--electric-pink), var(--cyber-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            color: var(--cosmic-purple);
+            filter: drop-shadow(0 0 10px var(--cosmic-purple));
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+            background: var(--glass-bg);
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, var(--electric-pink), var(--cyber-cyan));
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover::after {
+            width: 80%;
+        }
+
+        .wallet-btn {
+            background: linear-gradient(135deg, var(--electric-pink), var(--cosmic-purple));
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 0, 85, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .wallet-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 0, 85, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            z-index: 10;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--electric-pink), var(--cyber-cyan), var(--cosmic-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes textGlow {
+            0% { filter: drop-shadow(0 0 20px rgba(255, 0, 85, 0.5)); }
+            100% { filter: drop-shadow(0 0 40px rgba(0, 255, 245, 0.5)); }
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--electric-pink), var(--cosmic-purple));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-glow);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(171, 124, 249, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: var(--glass-bg);
+            border-color: var(--cyber-cyan);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 255, 245, 0.2);
+        }
+
+        /* Stats Section */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--electric-pink), var(--cyber-cyan), var(--cosmic-purple));
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover::before {
+            transform: translateX(0);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--cyber-cyan);
+            margin-bottom: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        /* Featured Collections */
+        .section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--text-primary), var(--cyber-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Bento Grid Layout */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .bento-item {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .bento-item:nth-child(1) { grid-row: span 2; }
+        .bento-item:nth-child(4) { grid-column: span 2; }
+
+        .bento-item:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 20px 60px rgba(171, 124, 249, 0.3);
+            border-color: var(--cosmic-purple);
+        }
+
+        .bento-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: all 0.4s ease;
+        }
+
+        .bento-item:hover .bento-image {
+            transform: scale(1.1);
+            filter: brightness(1.2);
+        }
+
+        .bento-content {
+            padding: 1.5rem;
+        }
+
+        .bento-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .bento-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .bento-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .bento-price {
+            font-weight: 700;
+            color: var(--cyber-cyan);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .bento-likes {
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        /* NFT Cards Grid */
+        .nft-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .nft-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nft-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 0, 85, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .nft-card:hover::before {
+            opacity: 1;
+        }
+
+        .nft-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 80px rgba(171, 124, 249, 0.4);
+            border-color: var(--electric-pink);
+        }
+
+        .nft-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            transition: all 0.4s ease;
+        }
+
+        .nft-card:hover .nft-image {
+            transform: scale(1.1);
+            filter: brightness(1.2) saturate(1.2);
+        }
+
+        .nft-info {
+            padding: 1.5rem;
+        }
+
+        .nft-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .nft-creator {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .nft-price-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .nft-price {
+            font-weight: 700;
+            color: var(--cyber-cyan);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+        }
+
+        .nft-fav {
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nft-fav:hover {
+            color: var(--electric-pink);
+            transform: scale(1.2);
+        }
+
+        .nft-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-small {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-buy {
+            background: linear-gradient(135deg, var(--electric-pink), var(--cosmic-purple));
+            color: white;
+        }
+
+        .btn-bid {
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-small:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Categories */
+        .categories {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 3rem 0;
+        }
+
+        .category-tag {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .category-tag:hover, .category-tag.active {
+            background: linear-gradient(135deg, var(--electric-pink), var(--cosmic-purple));
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 0, 85, 0.3);
+        }
+
+        /* Search Section */
+        .search-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            background: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--cyber-cyan);
+            box-shadow: 0 0 20px rgba(0, 255, 245, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 2rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--cyber-cyan);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: var(--glass-bg);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--cosmic-purple);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .newsletter {
+            background: var(--glass-bg);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .newsletter input {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .newsletter button {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, var(--electric-pink), var(--cosmic-purple));
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 0, 85, 0.3);
+        }
+
+        /* Loading States */
+        .skeleton {
+            background: linear-gradient(90deg, var(--glass-bg) 25%, rgba(255, 255, 255, 0.1) 50%, var(--glass-bg) 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .bento-item:nth-child(1) { grid-row: span 1; }
+            .bento-item:nth-child(4) { grid-column: span 1; }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nft-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1rem;
+            }
+        }
+
+        /* Advanced Animations */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .glow {
+            box-shadow: 0 0 20px var(--cyber-cyan);
+        }
+
+        /* Mint Section */
+        .mint-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            padding: 3rem;
+            margin: 3rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mint-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, var(--electric-pink), transparent);
+            animation: rotate 8s linear infinite;
+            opacity: 0.1;
+        }
+
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+
+        .mint-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .mint-counter {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--cyber-cyan);
+            font-family: 'JetBrains Mono', monospace;
+            margin: 1rem 0;
+        }
+
+        .mint-progress {
+            width: 100%;
+            height: 8px;
+            background: var(--dark-bg);
+            border-radius: 4px;
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+
+        .mint-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--electric-pink), var(--cyber-cyan));
+            width: 45%;
+            border-radius: 4px;
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200px 0; }
+            100% { background-position: 200px 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-cube"></i>
+                NEXUS
+            </a>
+            <ul class="nav-links">
+                <li><a href="#explore">Explore</a></li>
+                <li><a href="#collections">Collections</a></li>
+                <li><a href="#create">Create</a></li>
+                <li><a href="#stats">Stats</a></li>
+                <li><a href="#community">Community</a></li>
+            </ul>
+            <button class="wallet-btn" onclick="connectWallet()">
+                <i class="fas fa-wallet"></i>
+                Connect Wallet
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Discover, Collect & Trade Extraordinary NFTs</h1>
+            <p>The most advanced NFT marketplace where digital art meets cutting-edge technology. Join thousands of creators and collectors in the future of digital ownership.</p>
+            
+            <div class="hero-buttons">
+                <a href="#explore" class="btn-primary">
+                    <i class="fas fa-rocket"></i>
+                    Explore NFTs
+                </a>
+                <a href="#create" class="btn-secondary">
+                    <i class="fas fa-plus"></i>
+                    Create Collection
+                </a>
+            </div>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">777</div>
+                    <div class="stat-label">Total Supply</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">347</div>
+                    <div class="stat-label">Minted</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">FREE</div>
+                    <div class="stat-label">Mint Price</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">10%</div>
+                    <div class="stat-label">Royalty</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mint Section -->
+    <section class="section">
+        <div class="mint-section">
+            <div class="mint-content">
+                <h2 class="section-title">NEXUS Genesis Collection</h2>
+                <p class="section-subtitle">777 unique digital artifacts from the future. Free mint available now!</p>
+                
+                <div class="mint-counter">347 / 777</div>
+                <div class="mint-progress">
+                    <div class="mint-progress-bar"></div>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+                    <button class="btn-primary" onclick="mintNFT()">
+                        <i class="fas fa-hammer"></i>
+                        Mint Now (FREE)
+                    </button>
+                    <button class="btn-secondary">
+                        <i class="fas fa-eye"></i>
+                        View Collection
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="section">
+        <div class="search-section">
+            <h3 style="margin-bottom: 1rem; color: var(--text-primary);">Find Your Perfect NFT</h3>
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search collections, creators, or NFTs..." id="searchInput">
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="section">
+        <div class="categories">
+            <a href="#" class="category-tag active">All</a>
+            <a href="#" class="category-tag">Art</a>
+            <a href="#" class="category-tag">Gaming</a>
+            <a href="#" class="category-tag">Music</a>
+            <a href="#" class="category-tag">Photography</a>
+            <a href="#" class="category-tag">Sports</a>
+            <a href="#" class="category-tag">Virtual Worlds</a>
+            <a href="#" class="category-tag">Collectibles</a>
+        </div>
+    </section>
+
+    <!-- Featured Collections -->
+    <section class="section" id="collections">
+        <div class="section-header">
+            <h2 class="section-title">Featured Collections</h2>
+            <p class="section-subtitle">Discover the most sought-after NFT collections on NEXUS</p>
+        </div>
+
+        <div class="bento-grid">
+            <div class="bento-item">
+                <img src="https://images.unsplash.com/photo-1634973357973-f2ed2657db3c?w=400&h=400&fit=crop" alt="Cyber Punks" class="bento-image">
+                <div class="bento-content">
+                    <h3 class="bento-title">Cyber Punks 2077</h3>
+                    <p class="bento-description">Futuristic digital avatars from the neon-lit streets of tomorrow</p>
+                    <div class="bento-stats">
+                        <span class="bento-price">Floor: 2.5 ETH</span>
+                        <span class="bento-likes"><i class="fas fa-heart"></i> 1.2k</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bento-item">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&h=400&fit=crop" alt="Abstract Dreams" class="bento-image">
+                <div class="bento-content">
+                    <h3 class="bento-title">Abstract Dreams</h3>
+                    <p class="bento-description">Ethereal compositions that blur reality and imagination</p>
+                    <div class="bento-stats">
+                        <span class="bento-price">Floor: 1.8 ETH</span>
+                        <span class="bento-likes"><i class="fas fa-heart"></i> 856</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bento-item">
+                <img src="https://images.unsplash.com/photo-1635322966219-b75ed372eb01?w=400&h=400&fit=crop" alt="Digital Landscapes" class="bento-image">
+                <div class="bento-content">
+                    <h3 class="bento-title">Digital Landscapes</h3>
+                    <p class="bento-description">Breathtaking vistas from parallel digital dimensions</p>
+                    <div class="bento-stats">
+                        <span class="bento-price">Floor: 3.2 ETH</span>
+                        <span class="bento-likes"><i class="fas fa-heart"></i> 2.1k</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bento-item">
+                <img src="https://images.unsplash.com/photo-1618172193622-ae2d025f4032?w=800&h=400&fit=crop" alt="Neon Genesis" class="bento-image">
+                <div class="bento-content">
+                    <h3 class="bento-title">Neon Genesis</h3>
+                    <p class="bento-description">Vibrant cyberpunk aesthetics meet generative art algorithms</p>
+                    <div class="bento-stats">
+                        <span class="bento-price">Floor: 4.7 ETH</span>
+                        <span class="bento-likes"><i class="fas fa-heart"></i> 3.4k</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trending NFTs -->
+    <section class="section" id="explore">
+        <div class="section-header">
+            <h2 class="section-title">Trending NFTs</h2>
+            <p class="section-subtitle">The hottest digital collectibles right now</p>
+        </div>
+
+        <div class="nft-grid">
+            <div class="nft-card">
+                <img src="https://images.unsplash.com/photo-1634973357973-f2ed2657db3c?w=400&h=400&fit=crop" alt="NFT 1" class="nft-image">
+                <div class="nft-info">
+                    <h3 class="nft-title">Quantum Warrior #001</h3>
+                    <p class="nft-creator">by CyberArtist</p>
+                    <div class="nft-price-section">
+                        <span class="nft-price">2.5 ETH</span>
+                        <span class="nft-fav"><i class="far fa-heart"></i></span>
+                    </div>
+                    <div class="nft-actions">
+                        <button class="btn-small btn-buy">Buy Now</button>
+                        <button class="btn-small btn-bid">Place Bid</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nft-card">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&h=400&fit=crop" alt="NFT 2" class="nft-image">
+                <div class="nft-info">
+                    <h3 class="nft-title">Digital Nexus #247</h3>
+                    <p class="nft-creator">by PixelMaster</p>
+                    <div class="nft-price-section">
+                        <span class="nft-price">1.8 ETH</span>
+                        <span class="nft-fav"><i class="fas fa-heart" style="color: var(--electric-pink);"></i></span>
+                    </div>
+                    <div class="nft-actions">
+                        <button class="btn-small btn-buy">Buy Now</button>
+                        <button class="btn-small btn-bid">Place Bid</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nft-card">
+                <img src="https://images.unsplash.com/photo-1635322966219-b75ed372eb01?w=400&h=400&fit=crop" alt="NFT 3" class="nft-image">
+                <div class="nft-info">
+                    <h3 class="nft-title">Cosmic Vortex #089</h3>
+                    <p class="nft-creator">by VoidCreator</p>
+                    <div class="nft-price-section">
+                        <span class="nft-price">3.2 ETH</span>
+                        <span class="nft-fav"><i class="far fa-heart"></i></span>
+                    </div>
+                    <div class="nft-actions">
+                        <button class="btn-small btn-buy">Buy Now</button>
+                        <button class="btn-small btn-bid">Place Bid</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nft-card">
+                <img src="https://images.unsplash.com/photo-1618172193622-ae2d025f4032?w=400&h=400&fit=crop" alt="NFT 4" class="nft-image">
+                <div class="nft-info">
+                    <h3 class="nft-title">Neon Dreams #156</h3>
+                    <p class="nft-creator">by ElectricArt</p>
+                    <div class="nft-price-section">
+                        <span class="nft-price">4.7 ETH</span>
+                        <span class="nft-fav"><i class="far fa-heart"></i></span>
+                    </div>
+                    <div class="nft-actions">
+                        <button class="btn-small btn-buy">Buy Now</button>
+                        <button class="btn-small btn-bid">Place Bid</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nft-card">
+                <img src="https://images.unsplash.com/photo-1634973357973-f2ed2657db3c?w=400&h=400&fit=crop" alt="NFT 5" class="nft-image">
+                <div class="nft-info">
+                    <h3 class="nft-title">Cyber Guardian #333</h3>
+                    <p class="nft-creator">by FutureVision</p>
+                    <div class="nft-price-section">
+                        <span class="nft-price">2.1 ETH</span>
+                        <span class="nft-fav"><i class="fas fa-heart" style="color: var(--electric-pink);"></i></span>
+                    </div>
+                    <div class="nft-actions">
+                        <button class="btn-small btn-buy">Buy Now</button>
+                        <button class="btn-small btn-bid">Place Bid</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nft-card">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&h=400&fit=crop" alt="NFT 6" class="nft-image">
+                <div class="nft-info">
+                    <h3 class="nft-title">Holographic Soul #777</h3>
+                    <p class="nft-creator">by QuantumArt</p>
+                    <div class="nft-price-section">
+                        <span class="nft-price">5.5 ETH</span>
+                        <span class="nft-fav"><i class="far fa-heart"></i></span>
+                    </div>
+                    <div class="nft-actions">
+                        <button class="btn-small btn-buy">Buy Now</button>
+                        <button class="btn-small btn-bid">Place Bid</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>NEXUS</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">The future of NFT trading, built for creators and collectors who demand excellence.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Marketplace</h3>
+                <a href="#">Explore</a>
+                <a href="#">Collections</a>
+                <a href="#">Rankings</a>
+                <a href="#">Activity</a>
+                <a href="#">Stats</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Create</h3>
+                <a href="#">Mint NFT</a>
+                <a href="#">Create Collection</a>
+                <a href="#">Creator Tools</a>
+                <a href="#">Analytics</a>
+                <a href="#">Resources</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Support</h3>
+                <a href="#">Help Center</a>
+                <a href="#">Contact Us</a>
+                <a href="#">Bug Reports</a>
+                <a href="#">Feature Requests</a>
+                <a href="#">Documentation</a>
+            </div>
+
+            <div class="footer-section">
+                <div class="newsletter">
+                    <h3>Stay Updated</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Get the latest drops and updates</p>
+                    <input type="email" placeholder="Enter your email">
+                    <button>Subscribe</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal" id="walletModal">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 1rem;">Connect Your Wallet</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">Choose your preferred wallet to connect to NEXUS</p>
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <button class="btn-primary" onclick="connectMetaMask()">
+                    <i class="fab fa-ethereum"></i>
+                    MetaMask
+                </button>
+                <button class="btn-secondary" onclick="connectWalletConnect()">
+                    <i class="fas fa-wallet"></i>
+                    WalletConnect
+                </button>
+                <button class="btn-secondary" onclick="connectCoinbase()">
+                    <i class="fab fa-btc"></i>
+                    Coinbase Wallet
+                </button>
+            </div>
+            <button onclick="closeModal()" style="margin-top: 1rem; background: none; border: none; color: var(--text-secondary); cursor: pointer;">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        // Floating Particles Animation
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        // Wallet Connection
+        async function connectWallet() {
+            document.getElementById('walletModal').classList.add('active');
+        }
+
+        async function connectMetaMask() {
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    console.log('Connected to MetaMask:', accounts[0]);
+                    document.querySelector('.wallet-btn').innerHTML = `<i class="fas fa-check"></i> ${accounts[0].slice(0, 6)}...${accounts[0].slice(-4)}`;
+                    closeModal();
+                } catch (error) {
+                    console.error('Error connecting to MetaMask:', error);
+                }
+            } else {
+                alert('MetaMask is not installed!');
+            }
+        }
+
+        function connectWalletConnect() {
+            alert('WalletConnect integration would be implemented here');
+            closeModal();
+        }
+
+        function connectCoinbase() {
+            alert('Coinbase Wallet integration would be implemented here');
+            closeModal();
+        }
+
+        function closeModal() {
+            document.getElementById('walletModal').classList.remove('active');
+        }
+
+        // NFT Minting
+        async function mintNFT() {
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    // This would interact with the smart contract
+                    alert('Minting NFT... (Contract interaction would happen here)');
+                    // Update counter
+                    const counter = document.querySelector('.mint-counter');
+                    const current = parseInt(counter.textContent.split('/')[0]);
+                    counter.textContent = `${current + 1} / 777`;
+                } catch (error) {
+                    console.error('Error minting NFT:', error);
+                }
+            } else {
+                alert('Please connect your wallet first!');
+            }
+        }
+
+        // Search Functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            // Implement search logic here
+            console.log('Searching for:', searchTerm);
+        });
+
+        // Category Filtering
+        document.querySelectorAll('.category-tag').forEach(tag => {
+            tag.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.category-tag').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                // Implement filtering logic here
+            });
+        });
+
+        // Favorite Toggle
+        document.querySelectorAll('.nft-fav').forEach(fav => {
+            fav.addEventListener('click', function() {
+                const icon = this.querySelector('i');
+                if (icon.classList.contains('far')) {
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                    icon.style.color = 'var(--electric-pink)';
+                } else {
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                    icon.style.color = '';
+                }
+            });
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(10, 10, 15, 0.95)';
+            } else {
+                navbar.style.background = 'var(--glass-bg)';
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            // Add loading states to NFT cards
+            setTimeout(() => {
+                document.querySelectorAll('.nft-image').forEach(img => {
+                    img.addEventListener('load', function() {
+                        this.style.opacity = '1';
+                    });
+                });
+            }, 100);
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('walletModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
