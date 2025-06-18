@@ -18,7 +18,7 @@ with open("input.html", "r", encoding="utf-8") as f:
     html_content = f.read()
 
 
-soup = BeautifulSoup(html_content, "lxml")
+soup = BeautifulSoup(html_content, "html.parser")
 
 
 js_blocks = [script.get_text() for script in soup.find_all("script")]
@@ -29,7 +29,7 @@ js_code = "\n".join(js_blocks)
 js_patterns = {
     "function_declaration": r'(function\s+\w+\s*\([^)]*\)\s*\{[^}]*\})',
     "async_function": r'(async\s+function\s+\w+\s*\([^)]*\)\s*\{[^}]*\})',
-    "event_listener": r'(addEventListener\s*\(\s*[\'"]\w+[\'"]\s*,\s*function\s*\([^)]*\)\s*\{[^}]*\}\))',
+    "event_listener": r'([\w\.\(\)\'"\[\]=\s]+\.addEventListener\s*\(\s*[\'"]\w+[\'"]\s*,\s*function\s*\([^)]*\)\s*\{.*?\}\))',
     "arrow_function": r'(const\s+\w+\s*=\s*\([^)]*\)\s*=>\s*\{[^}]*\})'
 }
 

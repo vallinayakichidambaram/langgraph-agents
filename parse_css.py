@@ -20,7 +20,7 @@ with open("input.html", "r", encoding="utf-8") as f:
     html_content = f.read()
 
 
-soup = BeautifulSoup(html_content, "lxml")
+soup = BeautifulSoup(html_content, "html.parser")
 
 
 css_blocks = [style.get_text() for style in soup.find_all('style')]

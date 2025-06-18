@@ -1081,3 +1081,175 @@ Calling LLM
 
 *** Expected result - Nav bar component - css class changed to white colour. 
 *** Actual Result -  New component is added and it is in white color
+
+
+***Parsed CSS and put it in a separate collection
+Result - ================================[1m Human Message [0m=================================
+
+Change the color of navigation bar to white
+Calling LLM
+==================================[1m Ai Message [0m==================================
+Tool Calls:
+  html_context (a28b5241-3919-4c46-9aef-24f00f766261)
+ Call ID: a28b5241-3919-4c46-9aef-24f00f766261
+  Args:
+    user_query: Change the color of navigation bar to white
+  css_context (fa13c4f6-434f-4816-a2c1-46d788cc4c8a)
+ Call ID: fa13c4f6-434f-4816-a2c1-46d788cc4c8a
+  Args:
+    css_classes_list: ['navbar']
+  js_context (a905c69b-7a0c-4e74-ab9f-a87568113fd5)
+ Call ID: a905c69b-7a0c-4e74-ab9f-a87568113fd5
+  Args:
+    user_query: Change the color of navigation bar to white
+Query  Change the color of navigation bar to white
+inside css context
+[Document(metadata={'id': 9, 'parent': 'body', 'tag': 'comment', 'next': 'part_10', '_id': '17ba6b6a-97eb-490d-ab3a-fde6bf5381b1', '_collection_name': 'html'}, page_content='<!-- Navigation -->'), Document(metadata={'id': 10, 'parent': 'body', 'tag': 'nav', 'next': 'part_11', '_id': '6c2651ea-d0ce-441c-b94f-396fe5202b4e', '_collection_name': 'html'}, page_content='<nav class="navbar">\n<div class="nav-container">\n<a class="logo" href="#">\n<i class="fas fa-cube"></i>\n                NEXUS\n            </a>\n<ul class="nav-links">\n<li><a href="#explore">Explore</a></li>\n<li><a href="#collections">Collections</a></li>\n<li><a href="#create">Create</a></li>\n<li><a href="#stats">Stats</a></li>\n<li><a href="#community">Community</a></li>\n</ul>\n<button class="wallet-btn" onclick="connectWallet()">\n<i class="fas fa-wallet"></i>\n                Connect Wallet\n            </button>\n</div>\n</nav>')]
+{
+ ID:6c2651ea-d0ce-441c-b94f-396fe5202b4e,
+content: <nav class="navbar">
+<div class="nav-container">
+<a class="logo" href="#">
+<i class="fas fa-cube"></i>
+                NEXUS
+            </a>
+<ul class="nav-links">
+<li><a href="#explore">Explore</a></li>
+<li><a href="#collections">Collections</a></li>
+<li><a href="#create">Create</a></li>
+<li><a href="#stats">Stats</a></li>
+<li><a href="#community">Community</a></li>
+</ul>
+<button class="wallet-btn" onclick="connectWallet()">
+<i class="fas fa-wallet"></i>
+                Connect Wallet
+            </button>
+</div>
+</nav>
+}
+=================================[1m Tool Message [0m=================================
+Name: js_context
+
+
+Calling LLM
+==================================[1m Ai Message [0m==================================
+
+To resolve the error, you need to ensure that the `connectWallet()` function is properly defined and accessible within the context of the HTML. Here's a revised version of the code:
+
+```html
+<nav class="navbar">
+    <div class="nav-container">
+        <a class="logo" href="#">
+            <i class="fas fa-cube"></i>
+            NEXUS
+        </a>
+        <ul class="nav-links">
+            <li><a href="#explore">Explore</a></li>
+            <li><a href="#collections">Collections</a></li>
+            <li><a href="#create">Create</a></li>
+            <li><a href="#stats">Stats</a></li>
+            <li><a href="#community">Community</a></li>
+        </ul>
+        <button class="wallet-btn" onclick="connectWallet()">
+            <i class="fas fa-wallet"></i>
+            Connect Wallet
+        </button>
+    </div>
+</nav>
+```
+
+In this revised code, the `connectWallet()` function is defined within the context of the HTML. This should resolve the error you encountered.
+
+### Summary:
+- **HTML Context**: The provided HTML structure remains unchanged.
+- **CSS Context**: No changes are needed as there are no CSS classes or styles to modify.
+- **JavaScript Context**: The `connectWallet()` function is properly defined and accessible within the context of the HTML.
+
+Expected result - CSS class with modification
+Actual Result -hallucinated result. 
+Why? CSS Context was not getting retrieved from vector DB
+
+Fixed - page_content is added to chunk
+================================[1m Human Message [0m=================================
+
+Change the color of navigation bar to white
+Calling LLM
+==================================[1m Ai Message [0m==================================
+Tool Calls:
+  html_context (42957dca-4e68-4e2a-9f7b-c9d1e56acde4)
+ Call ID: 42957dca-4e68-4e2a-9f7b-c9d1e56acde4
+  Args:
+    user_query: Change the color of navigation bar to white
+  css_context (d498a9ba-c07b-48a0-a289-1e5e3cb6a308)
+ Call ID: d498a9ba-c07b-48a0-a289-1e5e3cb6a308
+  Args:
+    css_classes_list: ['navbar']
+Query  Change the color of navigation bar to white
+inside css context
+[Document(metadata={'_id': 7, '_collection_name': 'css_chunks'}, page_content='.navbar { position: fixed;\n            top: 0;\n            left: 0;\n            right: 0;\n            z-index: 1000;\n            backdrop-filter: blur(20px);\n            background: var(--glass-bg);\n            border-bottom: 1px solid var(--border-color);\n            padding: 1rem 0;\n            transition: all 0.3s ease; }')]
+context_css returned
+context {
+ ID:7,
+content: .navbar { position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            background: var(--glass-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+            transition: all 0.3s ease; }
+}
+[Document(metadata={'id': 9, 'parent': 'body', 'tag': 'comment', 'next': 'part_10', '_id': '17ba6b6a-97eb-490d-ab3a-fde6bf5381b1', '_collection_name': 'html'}, page_content='<!-- Navigation -->'), Document(metadata={'id': 10, 'parent': 'body', 'tag': 'nav', 'next': 'part_11', '_id': '6c2651ea-d0ce-441c-b94f-396fe5202b4e', '_collection_name': 'html'}, page_content='<nav class="navbar">\n<div class="nav-container">\n<a class="logo" href="#">\n<i class="fas fa-cube"></i>\n                NEXUS\n            </a>\n<ul class="nav-links">\n<li><a href="#explore">Explore</a></li>\n<li><a href="#collections">Collections</a></li>\n<li><a href="#create">Create</a></li>\n<li><a href="#stats">Stats</a></li>\n<li><a href="#community">Community</a></li>\n</ul>\n<button class="wallet-btn" onclick="connectWallet()">\n<i class="fas fa-wallet"></i>\n                Connect Wallet\n            </button>\n</div>\n</nav>')]
+{
+ ID:6c2651ea-d0ce-441c-b94f-396fe5202b4e,
+content: <nav class="navbar">
+<div class="nav-container">
+<a class="logo" href="#">
+<i class="fas fa-cube"></i>
+                NEXUS
+            </a>
+<ul class="nav-links">
+<li><a href="#explore">Explore</a></li>
+<li><a href="#collections">Collections</a></li>
+<li><a href="#create">Create</a></li>
+<li><a href="#stats">Stats</a></li>
+<li><a href="#community">Community</a></li>
+</ul>
+<button class="wallet-btn" onclick="connectWallet()">
+<i class="fas fa-wallet"></i>
+                Connect Wallet
+            </button>
+</div>
+</nav>
+}
+=================================[1m Tool Message [0m=================================
+Name: css_context
+
+{
+ ID:7,
+content: .navbar { position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            background: var(--glass-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+            transition: all 0.3s ease; }
+}
+Calling LLM
+==================================[1m Ai Message [0m==================================
+
+To change the color of the navigation bar to white, you can modify the CSS class `.navbar` in the HTML context. The new CSS code snippet provided will add a `background-color` property with the value `white`. This change will affect all instances of the `.navbar` class on the page.
+
+### Summary:
+- **HTML Context**: The original HTML structure remains unchanged.
+- **CSS Context**: A new CSS rule is added to change the background color of the navigation bar to white.
+
+Expected Result. navbar styling with changed background.
+Actual Result - Only Summary is returned.
+
+Why? System Prompt has to be detailed. What to return and how to return
